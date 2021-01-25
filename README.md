@@ -108,7 +108,7 @@ After data ingestion, transformation is divided into 2 parts by considering dail
         yp.id is null
     ```
 
-Schema for Transformation Table - posts_2013
+* Schema for Transformation Table - posts_2013
     ```
     | Columns      | Data Types          |
     |--------------|---------------------|
