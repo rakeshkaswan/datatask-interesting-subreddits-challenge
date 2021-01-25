@@ -3,7 +3,7 @@ The solution is created using Docker containerization. Latest CSV file is downlo
 
 * Checking data type for columns - float, bool, string, number
 * Checking unique, min, max values & max length of string columns (max length is char count of string in the column)
-* Relevant data mapping is created to read data efficiently using pandas.read_csv
+* Relevant data mapping is created to read data efficiently using pandas.read_csv with below Schema
     ```
     | Columns                | Data Types   |
     |------------------------|--------------|
@@ -33,7 +33,7 @@ The solution is created using Docker containerization. Latest CSV file is downlo
 
 # Ingestion
 For data ingestion all above things are considered & followed Below steps - 
-* `all_posts` table created with the schema in Postgre DB
+* `all_posts` table created with below schema in Postgres DB
     ```
     | Columns                | Data Types   |
     |------------------------|--------------|
@@ -69,12 +69,12 @@ For data ingestion all above things are considered & followed Below steps -
 * ups, downs columns are having -ve values, these are converted to +ve using absolute. As ups & down are voting/likes/dislikes, these can't be -ve
 * NaN is filled with empty in case of string while None in case of bool
 * Loaded this in `all_posts` table with `load_date` as the current date
-    * load_date column is added by keeping in mind that we will keep data history
-    * it will help in finding latest data
+    * `load_date` will help in transformation for new & existing records during daily runs
+
 
 
 # Transformation
-After data ingestion transformation is divided into 2 parts by considering daily runs. Once ingestion is complete transformation utilizes `load_date`, so it can consider only latest records.
+After data ingestion, transformation is divided into 2 parts by considering daily runs. Once ingestion is complete transformation utilizes `load_date`, so it can consider only latest records.
 
 * Part 1 - Update query is created for existing records
     ```
@@ -119,8 +119,8 @@ Schema for Transformation Table - posts_2013
     | permalink    | text                |
     | id           | VARCHAR(16) UNIQUE  |
     | subreddit_id | VARCHAR(16)         |
-    ```            
-# Quering
+    ```
+# Querying
 Below query selects top 10 `most intersting subreddits` - 
 * Query
     ```
@@ -157,7 +157,7 @@ Below query selects top 10 `most intersting subreddits` -
     ```
     git clone git@github.com:rakeshkaswan/datatask-interesting-subreddits-challenge.git
     ```
-* Make sure that `docker` client is installed to run this task, after cloning using terminal move to this directory `datatask-interesting-subreddits-challenge` and run below commands sequentially - 
+* Make sure that `docker` client is installed to run this task, after clone, using terminal move to this directory `datatask-interesting-subreddits-challenge` and run below commands sequentially - 
     * `docker-compse bulid`
     * `docker-compose up`
     
@@ -188,11 +188,11 @@ Wait sometimes after `docker-compose up`, it will prepare database & execute dat
      2021-01-24
     (1 row)
     ```
-* If want to execute pipeline again (incase source data is updated), use below command - 
+* If want to execute pipeline again (incase source data is updated/for daily run), use below command - 
     ```
     docker-compose run etl
-    (This will start running pipeline again & populate db with new data, before running this commad make sure postgress container should be up)
+    (This will start executing pipeline again & populate db with new data, before running this command make sure postgres container should be up)
     ```
 
 
-It's all set, now write any query & execute. Happy Executing!!! 
+It's all set, happily play with data!!! 
