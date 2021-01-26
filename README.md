@@ -129,8 +129,8 @@ Below query selects top 10 `most intersting subreddits` -
         FROM 
             posts_2013 
         WHERE 
-            abs(ups) > 5000 and abs(downs) > 5000 and 
-            abs(abs(ups)-abs(downs)) < 10000
+            ups > 5000 and downs > 5000 and 
+            abs(ups-downs) < 10000
             
     group by 1
     order by 2 desc

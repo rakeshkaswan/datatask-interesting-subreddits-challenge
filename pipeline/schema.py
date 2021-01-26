@@ -61,16 +61,17 @@ class Registory(object):
                 if suffix:
                     func = getattr(
                             Registory, 
-                            "{}_table".format(table_type)
+                            "{}_table".format(table_type),
+                            suffix
                         )(suffix)
-                    name = table_type
+                    name = "{}_{}".format(table_type, suffix)
                 else:
                    func = getattr(
                            Registory, 
                            "{}_table".format(table_type),
                            suffix
                         )()
-                   name = "{}_{}".format(table_type, suffix)
+                   name = table_type
  
                 print("Creating Table - {}".format(name))
                 cursor.execute(func)
